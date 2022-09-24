@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
@@ -37,8 +38,9 @@
             this.playSMC = new System.Windows.Forms.Button();
             this.Exit = new System.Windows.Forms.Button();
             this.Input = new System.Windows.Forms.RichTextBox();
-            this.Topic = new System.Windows.Forms.Button();
             this.rikobond = new System.Windows.Forms.TextBox();
+            this.bondshow = new System.Windows.Forms.Label();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RikoEmote)).BeginInit();
@@ -102,10 +104,11 @@
             this.playSMC.TabIndex = 5;
             this.playSMC.Text = "Chơi SMC";
             this.playSMC.UseVisualStyleBackColor = true;
+            this.playSMC.Click += new System.EventHandler(this.playSMC_Click);
             // 
             // Exit
             // 
-            this.Exit.Location = new System.Drawing.Point(12, 442);
+            this.Exit.Location = new System.Drawing.Point(12, 413);
             this.Exit.Name = "Exit";
             this.Exit.Size = new System.Drawing.Size(75, 23);
             this.Exit.TabIndex = 6;
@@ -125,31 +128,36 @@
             this.Input.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Input_KeyPress);
             this.Input.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Input_KeyUp);
             // 
-            // Topic
-            // 
-            this.Topic.Location = new System.Drawing.Point(12, 413);
-            this.Topic.Name = "Topic";
-            this.Topic.Size = new System.Drawing.Size(75, 23);
-            this.Topic.TabIndex = 8;
-            this.Topic.Text = "Topic";
-            this.Topic.UseVisualStyleBackColor = true;
-            // 
             // rikobond
             // 
-            this.rikobond.Location = new System.Drawing.Point(12, 296);
+            this.rikobond.Location = new System.Drawing.Point(12, 305);
             this.rikobond.Name = "rikobond";
             this.rikobond.ReadOnly = true;
-            this.rikobond.Size = new System.Drawing.Size(100, 23);
+            this.rikobond.Size = new System.Drawing.Size(75, 23);
             this.rikobond.TabIndex = 9;
             this.rikobond.TextChanged += new System.EventHandler(this.rikobond_TextChanged);
+            // 
+            // bondshow
+            // 
+            this.bondshow.AutoSize = true;
+            this.bondshow.Location = new System.Drawing.Point(12, 287);
+            this.bondshow.Name = "bondshow";
+            this.bondshow.Size = new System.Drawing.Size(76, 15);
+            this.bondshow.TabIndex = 10;
+            this.bondshow.Text = "Độ thân thiết";
+            // 
+            // timer1
+            // 
+            this.timer1.Interval = 1000;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(394, 485);
+            this.Controls.Add(this.bondshow);
             this.Controls.Add(this.rikobond);
-            this.Controls.Add(this.Topic);
             this.Controls.Add(this.Input);
             this.Controls.Add(this.Exit);
             this.Controls.Add(this.playSMC);
@@ -180,7 +188,8 @@
         private Button playSMC;
         private Button Exit;
         private RichTextBox Input;
-        private Button Topic;
         private TextBox rikobond;
+        private Label bondshow;
+        private System.Windows.Forms.Timer timer1;
     }
 }
