@@ -1,7 +1,10 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Net.Security;
 using System.Windows.Forms;
 using Microsoft.VisualBasic;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+
 namespace chat
 {
     public partial class Form1 : Form
@@ -17,7 +20,8 @@ namespace chat
         int ssc = 0; // đã biết thời tiết
         int sc2 = 0;
         int c2 = 1;
-    
+        int blockempty = 0;
+   
         public Form1()
         {
             InitializeComponent();
@@ -33,8 +37,8 @@ namespace chat
         private void Head_TextChanged(object sender, EventArgs e)
         {
             // core---------------------------------------------------------------------------------------------------
-
-
+            // công thức in text ra sẽ là  In text > tính số bond > hiện số bond > biểu cảm (gán giá trị cho câu hỏi nếu có)
+            //------------------------------------------------------------------------------------------------------
 
             // làm quen
 
@@ -45,7 +49,7 @@ namespace chat
                     Head.Text = "Được chứ, Riko sẽ làm quen với " + user; bond = bond + 5; rikobond.Text = bond.ToString(); c2 = 0;
                     if (c1 == 1)
                     {
-                       
+                        RikoEmote.Image = Image.FromFile(@"d:\Riko Chat Bot\chat\Rikoemote\rikoaim.png");
                         rslt = Interaction.InputBox("Bạn muốn riko gọi bạn là gì?", "Nhập tên", "Nhập tên bạn vào đây");
                         user = rslt;
         
@@ -75,14 +79,15 @@ namespace chat
                     {
                         Head.Text = " Riko vẫn khỏe đó" +
                             " Còn bạn thì sao"; bond = bond + 5; rikobond.Text = bond.ToString();
+                        Image.FromFile(@"d:\Riko Chat Bot\chat\Rikoemote\rikolove.png");
 
                     }
                     else
-                    { Head.Text = " Riko vẫn khỏe đó"; bond = bond + 5; rikobond.Text = bond.ToString(); ; }
+                    { Head.Text = " Riko vẫn khỏe đó"; bond = bond + 5; rikobond.Text = bond.ToString(); Image.FromFile(@"d:\Riko Chat Bot\chat\Rikoemote\rikolove.png"); }
 
                 }
                 else
-                    Head.Text = user + "và Riko không thân với nhau"; rikobond.Text = bond.ToString();
+                    Head.Text = user + "và Riko không thân với nhau"; rikobond.Text = bond.ToString();  Image.FromFile(@"d:\Riko Chat Bot\chat\Rikoemote\rikogaze.png"); 
 
             }
 
@@ -91,14 +96,15 @@ namespace chat
             {
                 Head.Text = " thật tuyệt khi " + user + " vẫn khỏe"; bond = bond + 5; rikobond.Text = bond.ToString();
                 sc++;
+                Image.FromFile(@"d:\Riko Chat Bot\chat\Rikoemote\rikogo.png");
             }
             // empty input
-            if (Input.Text.Length == 0)
+            if (Input.Text.Length == 0 && blockempty == 0 )
             {
-                if (bond > 50) { Head.Text = "Chắc là bạn quên nhập gì rồi"; bond = bond - 4; rikobond.Text = bond.ToString(); }
-                if (bond <= 50) { Head.Text = "Bạn không nhắn gì à?"; bond = bond - 4; rikobond.Text = bond.ToString(); }
-                if (bond < 45) { Head.Text = "Oiii không đùa đó nha"; bond = bond - 10; rikobond.Text = bond.ToString(); }
-                if (bond < 30) { Head.Text = "Riko không thích ai đó ấn nút gửi mà không có chữ liên tục như vậy"; bond = bond - 10; rikobond.Text = bond.ToString(); }
+                if (bond > 50) { Head.Text = "Chắc là bạn quên nhập gì rồi"; bond = bond - 4; rikobond.Text = bond.ToString(); Image.FromFile(@"d:\Riko Chat Bot\chat\Rikoemote\rikoconfuse.png"); }
+                if (bond <= 50) { Head.Text = "Bạn không nhắn gì à?"; bond = bond - 4; rikobond.Text = bond.ToString(); RikoEmote.Image = Image.FromFile(@"d:\Riko Chat Bot\chat\Rikoemote\rikostun.png"); }
+                if (bond < 45) { Head.Text = "Oiii không đùa đó nha"; bond = bond - 10; rikobond.Text = bond.ToString(); RikoEmote.Image = Image.FromFile(@"d:\Riko Chat Bot\chat\Rikoemote\rikostun.png"); }
+                if (bond < 30) { Head.Text = "Riko không thích ai đó ấn nút gửi mà không có chữ liên tục như vậy"; bond = bond - 10; rikobond.Text = bond.ToString(); Image.FromFile(@"d:\Riko Chat Bot\chat\Rikoemote\rikorun.png"); }
 
 
             }
@@ -108,6 +114,7 @@ namespace chat
                 if (bond > 70) { Head.Text = "Riko-chan chào " + user + " nha"; bond = bond + 5; rikobond.Text = bond.ToString(); }
                 if (bond >= 50 && bond <= 70)
                 {
+                    RikoEmote.Image = Image.FromFile(@"d:\Riko Chat Bot\chat\Rikoemote\rikoaim.png");
                     Head.Text = "Xin chào " +
                        "nhân tiện cho Riko biết tên bạn nhé  "; bond = bond + 5; rikobond.Text = bond.ToString();
                 }
@@ -128,6 +135,7 @@ namespace chat
                 if (bond > 0 && bond < 120) { Head.Text = "Tên của mình là Riko"; }
                 if (c1 == 1)
                 {
+                    RikoEmote.Image = Image.FromFile(@"d:\Riko Chat Bot\chat\Rikoemote\rikoaim.png");
                     rslt = Interaction.InputBox("Bạn muốn riko gọi bạn là gì?", "Nhập tên", "Nhập tên bạn vào đây");
                     user = rslt;
                     Head.Text = "Vậy riko sẽ gọi bạn là " + user;
@@ -136,9 +144,9 @@ namespace chat
             }
             if (Input.Text.ContainsAny(" nay riko", "này riko", "hey riko", "riko nay", "riko này", "riko nay"))
             {
-                if (bond > 70) { Head.Text = "Riko-chan đây, " + user + " có điều gì muốn nói với riko à"; rikobond.Text = bond.ToString(); }
-                if (bond >= 50 && bond <= 70) { Head.Text = "Riko đây"; rikobond.Text = bond.ToString(); }
-                if (bond < 50) { Head.Text = "Có gì không"; rikobond.Text = bond.ToString(); }
+                if (bond > 70) { Head.Text = "Riko-chan đây, " + user + " có điều gì muốn nói với riko à"; rikobond.Text = bond.ToString(); RikoEmote.Image = Image.FromFile(@"d:\Riko Chat Bot\chat\Rikoemote\rikogo.png"); }
+                if (bond >= 50 && bond <= 70) { Head.Text = "Riko đây"; rikobond.Text = bond.ToString(); RikoEmote.Image = Image.FromFile(@"d:\Riko Chat Bot\chat\Rikoemote\rikogo.png"); }
+                if (bond < 50) { Head.Text = "Có gì không"; rikobond.Text = bond.ToString(); RikoEmote.Image = Image.FromFile(@"d:\Riko Chat Bot\chat\Rikoemote\rikogaze.png"); }
             }
             // máy tính riko
             if (Input.Text.ContainsAny("cong", "cộng", "trừ", "tru", "nhân", "nhan", "chia", "+", "-", "*", "/", "math"))
@@ -148,11 +156,14 @@ namespace chat
                     DialogResult dlgResult = MessageBox.Show("Vì không có thơi gian nên riko tạm dùng máy tính nhé", "Nàyyyy", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                     if (dlgResult == DialogResult.Yes)
                     {
+                        blockempty = 1;
                         this.Hide();
                         rikocalc f2 = new rikocalc();
                         f2.ShowDialog();
                         this.Show();
+                        bond = bond + 5;
                         Head.Text = "Hello, chắc bạn đã tính xong rồi nhỉ";
+                        RikoEmote.Image = Image.FromFile(@"d:\Riko Chat Bot\chat\Rikoemote\rikoaim.png");
                     }
                 }
                 else
@@ -160,48 +171,67 @@ namespace chat
                     Head.Text = "Máy tính là của Riko, bạn không được dùng";
 
                 }
-            } // riko thời tiết
+            } 
+            // câu hỏi tư topic
+            // riko thời tiết
+
             if (Input.Text.ContainsAny("thời tiết", "thoi tiet") && ssc == 1) { Head.Text = "Có lẽ Riko đã biết thời tiết rồi, trông hay thật ấy"; }
             if (Input.Text.ContainsAny("thời tiết", "thoi tiet") && ssc == 0)
             {
+                RikoEmote.Image = Image.FromFile(@"d:\Riko Chat Bot\chat\Rikoemote\rikoconfuse.png");
                 if (bond > 90) { Head.Text = "Riko rất muốn biết ở bên ngoài như thế nào " + user + " có thể kể cho Riko biết không"; bond = bond + 5; rikobond.Text = bond.ToString(); }
                 if (bond > 50) { Head.Text = "Riko không biết thời tiết bên ngoài thế nào, vậy " + user + " biết chứ"; bond = bond + 5; rikobond.Text = bond.ToString(); }
                 if (bond < 50) { Head.Text = "Bên ngoài trông như thế nào ?"; bond = bond + 5; rikobond.Text = bond.ToString(); }
             }
+            //trời xấu
             if (Input.Text.ContainsAny("troi ko dep", "troi khong dep", "trời ko đẹp", "trời không đẹp", "trời xấu", "troi xau") && sc1 == 0)
-            { Head.Text = "ra là vậy, có vẻ bên ngoài không như riko tưởng tượng"; rikobond.Text = bond.ToString(); ssc = 1; sc1 = 1; }
+            { Head.Text = "ra là vậy, có vẻ bên ngoài không như riko tưởng tượng"; rikobond.Text = bond.ToString(); ssc = 1; sc1 = 1; RikoEmote.Image = Image.FromFile(@"d:\Riko Chat Bot\chat\Rikoemote\rikocry.png"); }
+           // trời đẹp
             if (Input.Text.ContainsAny("troi dep", "troi xanh", "trời  đẹp", "trời xanh", "trời mưa", "troi mua", "trời trong xanh", "troi trong xanh") && sc1 == 0)
-            { Head.Text = "Không ngờ bên ngoài trông như vậy, Riko cũng muốn xem"; bond = bond + 10; rikobond.Text = bond.ToString(); ssc = 1; sc1 = 1; }
+  { Head.Text = "Không ngờ bên ngoài trông như vậy, Riko cũng muốn xem"; bond = bond + 10; rikobond.Text = bond.ToString(); ssc = 1; sc1 = 1; RikoEmote.Image = Image.FromFile(@"d:\Riko Chat Bot\chat\Rikoemote\rikolove.png"); }
 
             // cái này chặn việc người dùng nhập bậy bạ
             if (Input.CanFocus && rslt != user)
             {
                 Input.Focus();
-                if (bond > 90) { Head.Text = "Riko không hiểu"; bond = bond - 5; rikobond.Text = bond.ToString(); }
-                if (bond > 50) { Head.Text = "Riko không hiểu bạn nói gì"; bond = bond - 5; rikobond.Text = bond.ToString(); }
-                if (bond < 30) { Head.Text = "Bạn viết cái gì vậy"; bond = bond - 5; rikobond.Text = bond.ToString(); }
+                if (bond > 90) { Head.Text = "Riko không hiểu"; bond = bond - 5; rikobond.Text = bond.ToString(); RikoEmote.Image = Image.FromFile(@"d:\Riko Chat Bot\chat\Rikoemote\rikoconfuse.png"); }
+                if (bond > 50) { Head.Text = "Riko không hiểu bạn nói gì"; bond = bond - 5; rikobond.Text = bond.ToString(); RikoEmote.Image = Image.FromFile(@"d:\Riko Chat Bot\chat\Rikoemote\rikostun.png"); }
+                if (bond < 30) { Head.Text = "Bạn viết cái gì vậy"; bond = bond - 5; rikobond.Text = bond.ToString(); RikoEmote.Image = Image.FromFile(@"d:\Riko Chat Bot\chat\Rikoemote\rikogaze.png"); }
             }
 
             // tán gẫu ngẫu nhiên
             if (Input.Text.ContainsAny("muốn nói chuyện", "tám chuyện", "noi chuyen", "topic"))
             {
-                if (bond > 50 )
+                if (bond > 45 )
                 {   
                     Random rnd = new Random();
                     int rn = rnd.Next(1, 10);
                     bond = bond + 10; rikobond.Text = bond.ToString();
-                    if (rn == 2) { Head.Text = " Riko là 1 Vtuber, thường xuất hiện trong các sự kiện của SMC"; }
-                    if (rn == 3) { Head.Text = "SMC là 1 game rất hay đó " + user + " biết chứ, tuy ít người chơi nhưng trải nghiệm rất tuyệt"; }
-                    if (rn == 4) { Head.Text = "Riko rất muốn lái 1 chiếc Mecha, có lẽ Riko 1 ngày nào đó sẽ có cơ hội lái 1 chiếc"; }
-                    if (rn == 5) { Head.Text = "Riko chỉ là nhân vật bị chôm bởi Nguyễn Thanh Dũng và sử dụng cho mục đích làm đồ án"; }
+                    if (rn == 2) { Head.Text = " Riko là 1 Vtuber, thường xuất hiện trong các sự kiện của SMC"; RikoEmote.Image = Image.FromFile(@"d:\Riko Chat Bot\chat\Rikoemote\rikoaim.png"); }
+                    if (rn == 3) { Head.Text = "SMC là 1 game rất hay đó " + user + " biết chứ, tuy ít người chơi nhưng trải nghiệm rất tuyệt"; RikoEmote.Image = Image.FromFile(@"d:\Riko Chat Bot\chat\Rikoemote\rikogo.png"); }
+                    if (rn == 4) { Head.Text = "Riko rất muốn lái 1 chiếc Mecha, có lẽ Riko 1 ngày nào đó sẽ có cơ hội lái 1 chiếc"; RikoEmote.Image = Image.FromFile(@"d:\Riko Chat Bot\chat\Rikoemote\rikoaim.png"); }
+                    if (rn == 5) { Head.Text = "Riko chỉ là nhân vật bị chôm bởi Nguyễn Thanh Dũng và sử dụng cho mục đích làm đồ án"; RikoEmote.Image = Image.FromFile(@"d:\Riko Chat Bot\chat\Rikoemote\rikogaze.png"); }
                     if (rn == 6) { Head.Text = "Hệ thống bond của riko sẽ tăng giảm tùy vào những gì người dùng hỏi, cái này ý tưởng từ Yakuza Kiwami 1"; }
-                    if (rn == 7) { Head.Text = "Tác giả rất muốn thêm vài tính nào vào cho Riko, nhưng có vẻ 2 cái đồ án và ví tiền siêu hạn hẹp khiến Tác giả không có nhiều thời gian cho lắm(hoặc đây là lười)"; }
-                    if (rn == 8) { Head.Text = "GIáo Viên Hutech cực đỉnh"; }
-                    if (rn == 9) { Head.Text = "Có lẽ sau khi chấm đồ án, tác giả sẽ tự quyết định có phát triển tiếp không (khả năng cao là không)"; }
+                    if (rn == 7) { Head.Text = "Tác giả rất muốn thêm vài tính nào vào cho Riko, nhưng có vẻ 2 cái đồ án và ví tiền siêu hạn hẹp khiến Tác giả không có nhiều thời gian cho lắm(hoặc đây là lười)"; RikoEmote.Image = Image.FromFile(@"d:\Riko Chat Bot\chat\Rikoemote\rikostun.png"); }
+                    if (rn == 8) { Head.Text = "GIáo Viên Hutech cực đỉnh"; RikoEmote.Image = Image.FromFile(@"d:\Riko Chat Bot\chat\Rikoemote\rikogo.png"); }
+                    if (rn == 9) { Head.Text = "Có lẽ sau khi chấm đồ án, tác giả sẽ tự quyết định có phát triển tiếp không (khả năng cao là không)"; RikoEmote.Image = Image.FromFile(@"d:\Riko Chat Bot\chat\Rikoemote\rikogaze.png"); }
                 }
                 else
                     Head.Text = "Riko không muốn nói chuyện với bạn";
             }    
+            // hỏi ngày giờ
+            if(Input.Text.ContainsAny("mấy giờ", "may gio", "may h", "mấy h", "what time", "mấy giờ?", "may gio", "mấy h?", "may h?", "ngày bao nhiêu", "ngay bao nhieu", "ngày bao nhiêu ?", "ngay bao nhieu ?"))
+            {
+                if (bond > 45)
+                {
+                    DateTime d = new DateTime();
+                    d = DateTime.Now;
+                    RikoEmote.Image = Image.FromFile(@"d:\Riko Chat Bot\chat\Rikoemote\rikogo.png");
+                    Head.Text = d.ToString(" HH:mm:ss" + "dd.MM.yyyy"); bond = bond + 4; rikobond.Text = bond.ToString();
+                }
+                else
+                { Head.Text = user + "có đồng hồ, tự đi mà coi"; RikoEmote.Image = Image.FromFile(@"d:\Riko Chat Bot\chat\Rikoemote\rikorun.png"); }    
+            }
 
             //cheat test hệ thống bond
             if (Input.Text.Contains("ntddeptrai")) { bond = 120; Head.Text = "bạn đã cheat tăng bond"; rikobond.Text = bond.ToString(); }
@@ -221,7 +251,17 @@ namespace chat
         //-------------------------------------------------------------------------------------------------
         private void RikoEmote_Click(object sender, EventArgs e)
         {
-
+          RikoEmote.SizeMode = PictureBoxSizeMode.StretchImage;
+            /* RikoEmote.Image = null;
+             RikoEmote.Image = Image.FromFile(@"d:\Riko Chat Bot\chat\Rikoemote\rikoaim.png");
+             RikoEmote.Image = Image.FromFile(@"d:\Riko Chat Bot\chat\Rikoemote\rikoconfuse.png");
+             RikoEmote.Image = Image.FromFile(@"d:\Riko Chat Bot\chat\Rikoemote\rikocry.png");
+             RikoEmote.Image = Image.FromFile(@"d:\Riko Chat Bot\chat\Rikoemote\rikogaze.png");
+             RikoEmote.Image = Image.FromFile(@"d:\Riko Chat Bot\chat\Rikoemote\rikogo.png");
+             RikoEmote.Image = Image.FromFile(@"d:\Riko Chat Bot\chat\Rikoemote\rikolove.png");
+             RikoEmote.Image = Image.FromFile(@"d:\Riko Chat Bot\chat\Rikoemote\rikorun.png");
+             RikoEmote.Image = Image.FromFile(@"d:\Riko Chat Bot\chat\Rikoemote\rikostun.png");
+           */
         }
 
         private void Input_TextChanged(object sender, EventArgs e)
@@ -247,8 +287,8 @@ namespace chat
         private void Send_Click(object sender, EventArgs e)
 
         {
-
-                Head.Text = String.Empty;
+            blockempty = 0;
+            Head.Text = String.Empty;
                 Input.Text = String.Empty;
             
 
@@ -305,14 +345,25 @@ namespace chat
 
         private void playSMC_Click(object sender, EventArgs e)
         {
-            
-                ProcessStartInfo psStartInfo = new ProcessStartInfo();
-                psStartInfo.FileName = @"d:\\Steam\steamapps\common\Super Mecha Champions\launcher.exe";
-                psStartInfo.Arguments = "header.h";
-            Process ps = Process.Start(psStartInfo);
-           
+
+            blockempty = 1;
+            this.Hide();
+            rikotool f3 = new rikotool();
+            f3.ShowDialog();   
+            Head.Text = "Riko xin lỗi " + user + "nhiều vì thời gian phát triển ngắn nên không có nhiều công cụ";
+            RikoEmote.Image = Image.FromFile(@"d:\Riko Chat Bot\chat\Rikoemote\rikocry.png");
+            bond = bond + 5;
+            this.Show();
+        }
+
+        private void pictureBox3_Click(object sender, EventArgs e)
+        {
 
         }
 
+        private void pictureBox5_Click(object sender, EventArgs e)
+        {
+           
+        }
     }
 }
